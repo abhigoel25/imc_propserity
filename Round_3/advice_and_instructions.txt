@@ -1,0 +1,80 @@
+# Round 3 **- “Gloves Off”**
+
+Welcome to Solvenar! A prosperous and highly developed planet known for technological innovation, a robust economy, and thriving cultural sectors.
+
+This awe-inspiring society will be the stage for the ***Great Orbital Ascension Trials*** (GOAT). In this Great Galactic Trade-Off, you will face other trading crews head-on as you compete for the coveted title of Trading Champion of the Galaxy. This trading round marks the start of GOAT, where ***all teams begin with zero PnL and the leaderboard is reset***.
+
+You will develop a new Python program and incorporate your strategy for trading ***Hydrogel Packs*** (`HYDROGEL_PACK`), ***Velvetfruit Extract*** (`VELVETFRUIT_EXTRACT`), and ***10 Velvetfruit Extract Vouchers*** (`VELVETFRUIT_EXTRACT_VOUCHER`). These vouchers give you the right to buy Velvetfruit Extract at a later point for a specific strike price.
+
+To kick off GOAT, the Celestial Gardeners’ Guild is making a rare appearance, offering you the opportunity to buy ***Ornamental Bio-Pods*** from them. You may submit two offers and trade with as many of the so-called “Guardeners” as aligns with your strategy for maximum profitability. Secure those Bio-Pods, and they will be automatically converted into profit before the next trading round begins.
+
+Be aware that ***trading rounds on Solvenar (Solvenarian days) last only 48 hours***. Be decisive, thorough, and fast, and make this first step toward the ultimate title count.
+
+# **Round Objective**
+
+Create a new Python program that algorithmically trades `HYDROGEL_PACK`, `VELVETFRUIT_EXTRACT`, and `VELVETFRUIT_EXTRACT_VOUCHER` on your behalf and generates your first profit in this final phase.
+
+In addition, manually submit two orders to trade Ornamental Bio-Pods with members of the Celestial Gardeners’ Guild, then automatically sell your acquired Bio-Pods to generate additional profit.
+
+# **Algorithmic trading challenge: “Options Require Decisions”**
+
+There are 2 ‘asset classes’ in the three products you trade. The `HYDROGEL_PACK` and `VELVETFRUIT_EXTRACT` are “delta 1” products, similar to the products in the tutorial and rounds 1 and 2. The 10 `VELVETFRUIT_EXTRACT_VOUCHER` products (each with a different strike price) are options, and thus follow different dynamics. All products are traded independently, even though the price of `VELVETFRUIT_EXTRACT_VOUCHER` might be related to that of `VELVETFRUIT_EXTRACT` due to the nature of options.
+
+The vouchers are labeled `VEV_4000`, `VEV_4500`, `VEV_5000`, `VEV_5100`, `VEV_5200`, `VEV_5300`, `VEV_5400`, `VEV_5500`, `VEV_6000`, `VEV_6500`, where VEV stands for **V**elvetfruit **E**xtract **V**oucher, and the number represents the strike price. They all have a 7-day expiration deadline starting from round 1, where each round represents 1 day. Thus, the ‘time till expiry’ (TTE) is 7 days at the start of round 1 (TTE=7d), 6 days at the start of round 2, 5 days at the start of round 3, and so on.
+
+The position limits ([see the Position Limits page for extra context and troubleshooting](https://imc-prosperity.notion.site/writing-an-algorithm-in-python#328e8453a09380cfb53edaa112e960a9)) are:
+
+- `HYDROGEL_PACK`: 200
+- `VELVETFRUIT_EXTRACT`: 200
+- `VELVETFRUIT_EXTRACT_VOUCHER`: 300 for each of the 10 vouchers.
+
+<aside>
+📃
+
+**Example**: `VEV_5000` is an option on the underlying VEV with a strike price of 5000 and a position limit of 300. At the start of the final simulation of Round 3, its time to expiry (TTE) is 5 days. In the historical data, the corresponding TTE values are:
+
+- TTE=8d at the start of historical day 0 (coinciding with the tutorial round),
+- TTE=7d at the start of historical day 1 (coinciding with Round 1),
+- TTE=6d at the start of historical day 2 (coinciding with Round 2).
+</aside>
+
+Vouchers cannot be exercised before their expiry, and inventory does not carry over into the next round. Like in previous rounds, any open positions are automatically liquidated against a hidden fair value at the end of the round.
+
+# **Manual trading challenge: “The Celestial Gardeners’ Guild”**
+
+You trade against a secret number of counterparties that all have a **reserve price** ranging between **670** and **920**. You trade at most once with each counterparty. On the next trading day, you’re able to sell all the product for a fair price, **920**.
+
+The distribution of the bids is **uniformly distributed** at **increments of 5** between **670** and **920** (inclusive on both ends). 
+
+<aside>
+📃
+
+**Example**: counterparties may have reserve prices at 675 and 680, but not at 676, 677, 678, 679, etc..
+
+</aside>
+
+You may submit **two bids**. If the first bid is **higher** than the reserve price, they trade with you at your first bid. If your second bid is **higher** than the reserve price of a counterparty and **higher** than the mean of second bids of all players you trade at your second bid. If your second bid is **higher** than the reserve price, but **lower** than or **equal** to the mean of second bids of all players, the chance of a trade rapidly decreases: you will trade at your second bid **but** your PNL is penalised by 
+
+$$
+\left(\frac{920 - \text{avg\_b2}}{920 - b2}\right)^3
+$$
+
+## **Submit your orders**
+
+Submit your two bids directly in the Manual Challenge Overview window and click the “Submit” button. You can re-submit new bids until the end of the trading round. When the round ends, the last submitted bids will be offered to the members of the Celestial Gardeners' Guild.
+
+
+im doing the imc propserity challenge and currently in round 3. im working on the algorithm challenge for it right now. this is the challenge (ignore the manual round, just focus on algorithm). I have attached all the data as well. i need you to think long and hard and thoroughly anaylze all the day and thoroughly understand the game as well. we want to make the most pnl by the end of the trading period of course. that means you need to understand the data for the products as much as possible and also understand how options work very well. go through all of the data and analyze it very closely. then create the best possible pyton script you can for this. This Data Capsule contains historical performance data for all available tradable goods.
+Download the data file to analyze the performance history of Hydrogel Packs and Velvetfruit Extract.
+All the Velvetfruit Extract Vouchers have a Time To Expiry (TTE) of 7 Solvenarian days, starting from day 1. The available VEVs are:
+
+* VEV_4000; Strike price: 4000
+* VEV_4500; Strike price: 4500
+* VEV_5000; Strike price: 5000
+* VEV_5100; Strike price: 5100
+* VEV_5200; Strike price: 5200
+* VEV_5300; Strike price: 5300
+* VEV_5400; Strike price: 5400
+* VEV_5500; Strike price: 5500
+* VEV_6000; Strike price: 6000
+* VEV_6500; Strike price: 6500ou have three new tradable goods available to trade with. Incorporate these Hydrogel Packs, Velvetfruit Extracts, and Velvetfruit Extract Vouchers (VEVs) into your strategy and translate it into a new Python program to upload to the network. i have attached advice i have received too: Okay so this one is actually worth paying attention to. Just saying.  When a first bid gets rejected, the second one matters more. Because now there is a reference point. And if acceptance depends on how your bid compares to that reference point, suddenly everyone is thinking about the same number. Which changes things.  If trading crews start anticipating where that reference point will land, they begin positioning around it before it is even set. Second bids cluster. Not because anyone coordinated. Just because everyone ran the same calculation and arrived at the same place. And when that happens, the average stops being something you observe and starts being something you can influence.  Which is interesting. Until it isn't.  Because here is the uncomfortable part. Everyone benefits from a stable benchmark. It keeps things predictable. Manageable. But everyone also has a reason to deviate from it if doing so gets them a better outcome. That tension does not go away. It just sits there, quietly, under every bid in the room.  So what do you do with that? Follow the crowd and hope the benchmark stays where you expect it? Try to nudge it in your direction? Or find the gap everyone else ignored and slip through it before they notice?  All three are options. I know which one I'd pick. But I'm not telling you. Figure it out.Okay so you found something. Maybe two somethings. Or three. Or more. Or whatever. Now everyone's favorite question: how much?  Here is the thing about volume. It is not just a number you pick because it feels right. It should reflect how confident you actually are. Not how confident you want to be. Those are different things and most people mix them up constantly.  If one voucher looks slightly off and another looks significantly off, those are not the same signal. Treating them like they are is just lazy. Scale your exposure to match the strength of the deviation. Bigger gap, bigger position. Smaller gap, smaller position. It is not complicated. It is just easy to ignore when you are excited about having spotted something.  The other side of that, obviously, is that larger volume means larger losses if you are wrong. And you might be wrong. Even if your read on the volatility structure is good, the market does not always care about your timeline. Sometimes it stays weird longer than you expected. Sometimes it moves in a completely different direction. Annoying, but true.  So be honest with yourself before you commit. How strong is the signal really? How much can you absorb if it doesn't play out? Volume should match conviction. Not optimism.  That's it. That's the whole thing.So you have the structure. Good for you. Now look at it properly. Does it hold together or does something feel off?  Because it usually does. There is almost always a voucher sitting somewhere it probably should not. Implying more uncertainty than everything around it. Or weirdly calm when it has no business being calm. Those are the interesting ones. Those are the ones worth staring at for an extra second.  Ask yourself what the deviation means. Is the market overestimating uncertainty there? Underestimating it? Both happen. Both mean something different. The direction of the gap tells you which way the opportunity points, if there is one.  And that is the part people rush. Finding the outlier feels like the finish line. It is not. It is just the beginning of the actual question, which is whether the deviation is real, meaningful, and worth acting on. Some misalignments are just noise. Some are the market being wrong in a way you can use. Learning to tell the difference is kind of the whole thing.  Buy, sell, or don't. The structure will point you somewhere. Whether you trust what it is pointing at is on you.Options. Okay. So we're going deeper. Fine.  The Velvetfruit Extract Vouchers are not just prices on a screen. They have structure underneath. The Black-Scholes formula lets you pull out the Implied Volatility embedded in each one. That number tells you what uncertainty the market has already priced in. Which is, honestly, more interesting than the price itself.  Run it across all the vouchers. See how the volatility shifts across different strikes and timeframes. Does it move smoothly or does it get weird in places? Then bring in moneyness. How far each voucher's strike sits from the current underlying price. Plot that against your volatility figures and something starts to take shape.  That shape is the market telling you what it thinks. Not out loud, obviously. Markets don't do that. But it's there if you're paying attention. And you know I am, even when it looks like I'm not.  Don't skip this part trying to get to the exciting bit. The structure is the exciting bit. Or at least, it's where everything useful comes from. Which is basically the same thing. i have attached the current python file i was using for the algoruthm and as associated precition for it's pnl on a graph.
